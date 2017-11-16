@@ -21,23 +21,30 @@ class App extends Component {
         {id: 8, checked: false, p: "Good Luck!"},
         {id: 9, checked: false, p: "Don't forget to tweet your result!"}
       ],
-      lastChecked: false
+      lastChecked: false,
     }
   }
 
   handleClick(id) {
     const itemsListUpdate = this.state.itemsList.map(item => {
       if(item.id === id) {
-        item.checked = !item.checked
-
+        item.checked = !item.checked;
+        if (item.checked) {
+          this.setState({lastChecked: id})
+        } else {
+          const firstChecked = this.state.itemsList.find(item =>
+            item.checked)
+          this.setState({lastChecked: firstChecked ? firstChecked.id : false})
+        }
       }
       return item
+
     })
-    const checkedId = itemsListUpdate.checked ? id : false;
+
 
     console.log(itemsListUpdate);
 
-    this.setState({itemsList: itemsListUpdate, lastChecked: checkedId})
+    this.setState({itemsList: itemsListUpdate, })
   }
 
   renderCheckboxes(items) {
