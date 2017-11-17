@@ -25,10 +25,13 @@ class App extends Component {
     }
   }
 
-  handleClick(id) {
+  handleClick(id, e) {
+    console.log(e.shiftKey);
     const itemsListUpdate = this.state.itemsList.map(item => {
+
       if(item.id === id) {
         item.checked = !item.checked;
+
         if (item.checked) {
           this.setState({lastChecked: id})
         } else {
@@ -36,13 +39,24 @@ class App extends Component {
             item.checked)
           this.setState({lastChecked: firstChecked ? firstChecked.id : false})
         }
+
+        if (item.id === id && this.state.lastChecked) {
+          this.setState({checking: true})
+          console.log('checking');
+        } else {
+          this.setState({checking: false})
+        }
+
+        if (e.shiftKey && this.state.checking) {
+          item.checked;
+          console.log('checking all');
+        }
       }
+
+
+
       return item
-
     })
-
-
-    console.log(itemsListUpdate);
 
     this.setState({itemsList: itemsListUpdate, })
   }
