@@ -40,7 +40,7 @@ class App extends Component {
           this.setState({lastChecked: firstChecked ? firstChecked.id : false})
         }
 
-        if (item.id === id && this.state.lastChecked) {
+        if (item.id === id || this.state.lastChecked) {
           this.setState({checking: true})
           console.log('checking');
         } else {
@@ -48,8 +48,12 @@ class App extends Component {
         }
 
         if (e.shiftKey && this.state.checking) {
-          item.checked;
-          console.log('checking all');
+          const test = this.state.itemsList.map(item => {
+            console.log('checking all');
+            item.checked;
+            return item;
+          })
+          this.setState({itemsList: test})
         }
       }
 
