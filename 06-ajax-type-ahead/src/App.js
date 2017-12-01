@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
+import Form from './Form';
+import Input from './Input';
+import Ul from './Ul';
+import Li from './Li';
+import Span from './Span';
+import './Global'
 
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 const cities = [];
@@ -33,17 +38,21 @@ class App extends Component {
     });
   }
 
-  renderCities = () => {
-    return this.state.storeCities.map((record, index) => {
-      const regex = new RegExp(this.state.inputValue, 'gi');
-      const cityHighlight = record.city.replace(regex, `<span class="hl">${this.state.inputValue}</span>`).toLowerCase();
-      const stateHighlight = record.state.replace(regex, `<span class="hl">${this.state.inputValue}</span>`).toLowerCase();
-      const cityAndStateDisplay = `${cityHighlight}, ${stateHighlight}`
+
+  renderCity = (itemStr, matchStr) => {
+    const matchRg = new RegExp(matchStr, 'gi');
+    return itemStr.split(matchRg).reduce((prev, curr, i) => [prev, <Span highlighted key={i}>{itemStr.match(matchRg)[0]}</Span>, curr])
+  }
+
+  renderCities = (records, matchStr) => {
+
+    return records.map((record, index) => {
+
       return (
-        <li key={index}>
-          <span dangerouslySetInnerHTML={{__html: cityAndStateDisplay}}></span>
-          <span>{record.population}</span>
-        </li>
+        <Li key={index}>
+          <Span>{this.renderCity(`${record.city}, ${record.state}`, matchStr)}</Span>
+          <Span>{record.population}</Span>
+        </Li>
       )
     })
   }
@@ -51,22 +60,19 @@ class App extends Component {
   render() {
 
     return (
-      <div>
-        <form className="search-form">
-        
-          <input
+        <Form>
+
+          <Input
             type="text"
-            className="search"
             placeholder="City or state"
             onChange={this.handleCities}/>
 
           {this.state.inputValue &&
-          <ul className="suggestions">
-            {this.renderCities()}
-          </ul>}
+          <Ul>
+            {this.renderCities(this.state.storeCities, this.state.inputValue)}
+          </Ul>}
 
-        </form>
-      </div>
+        </Form>
     );
   }
 }
