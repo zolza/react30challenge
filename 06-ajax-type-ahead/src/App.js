@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Form from './Form';
-import Input from './Input';
-import Ul from './Ul';
-import Li from './Li';
-import Span from './Span';
-import './Global'
+import Form from './styled/Form';
+import Input from './styled/Input';
+import Ul from './styled/Ul';
+import Li from './styled/Li';
+import Span from './styled/Span';
+import './styled/Global'
 
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 const cities = [];
